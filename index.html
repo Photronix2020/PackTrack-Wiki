@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PackTrack Wiki</title>
+<meta name="description" content="Reference for PackTrack, the party quest tracker for WoW: Forever. Every feature, setting and command.">
+<link rel="icon" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b14;--panel:#121222;--panel2:#181830;--line:#2a2745;--text:#e7e5f2;--muted:#9c98b8;
+  --accent:#69e9ac;--purple:#9a5ae6;--red:#ff5a4a;--green:#4fe07f;--gold:#ffc83a;--code:#1d1b33;
+  --shadow:0 1px 0 rgba(255,255,255,.03) inset;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f7f6fb;--panel:#ffffff;--panel2:#f1eff8;--line:#dedaee;--text:#1d1a2e;--muted:#5f5a7a;
+    --accent:#14955a;--purple:#7337c6;--red:#d6372a;--green:#1c9a4a;--gold:#a87700;--code:#efedf7;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f7f6fb;--panel:#ffffff;--panel2:#f1eff8;--line:#dedaee;--text:#1d1a2e;--muted:#5f5a7a;
+  --accent:#14955a;--purple:#7337c6;--red:#d6372a;--green:#1c9a4a;--gold:#a87700;--code:#efedf7;
+}
+:root[data-theme="dark"]{
+  --bg:#0b0b14;--panel:#121222;--panel2:#181830;--line:#2a2745;--text:#e7e5f2;--muted:#9c98b8;
+  --accent:#69e9ac;--purple:#9a5ae6;--red:#ff5a4a;--green:#4fe07f;--gold:#ffc83a;--code:#1d1b33;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 Inter,system-ui,sans-serif}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+code,kbd{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.88em;background:var(--code);padding:.1em .4em;border-radius:5px}
+.layout{display:grid;grid-template-columns:270px 1fr;min-height:100vh}
+aside{position:sticky;top:0;height:100vh;overflow:auto;background:var(--panel);border-right:1px solid var(--line);padding:20px 16px}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:16px}
+.brand img{width:40px;height:40px;border-radius:10px}
+.brand b{font-size:18px;letter-spacing:.5px}
+.brand small{display:block;color:var(--muted);font-size:12px}
+#search{width:100%;padding:9px 11px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:inherit;margin-bottom:12px}
+nav a{display:block;color:var(--muted);padding:4px 8px;border-radius:6px;font-size:14px}
+nav a:hover,nav a.on{color:var(--text);background:var(--panel2);text-decoration:none}
+nav .grp{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--purple);margin:14px 8px 4px;font-weight:700}
+.theme{margin-top:16px;width:100%;padding:7px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);font:inherit;cursor:pointer}
+main{padding:36px 48px 80px;max-width:980px}
+header.hero{display:flex;gap:20px;align-items:center;margin-bottom:8px}
+header.hero img{width:88px;height:88px;border-radius:18px}
+h1{font-size:34px;margin:0;line-height:1.15}
+.tag{color:var(--muted);margin:4px 0 0}
+section{border-top:1px solid var(--line);padding-top:22px;margin-top:30px}
+h2{font-size:24px;margin:0 0 10px} h3{font-size:17px;margin:22px 0 6px}
+p{margin:8px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.cue{border-left:4px solid var(--c);padding-left:12px}
+.cue b{color:var(--c)}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.8px}
+td:first-child{white-space:nowrap}
+.tbl{overflow-x:auto}
+figure{margin:14px 0} figure img{max-width:100%;border-radius:10px;border:1px solid var(--line);display:block}
+figcaption{color:var(--muted);font-size:13px;margin-top:6px}
+.note{background:var(--panel2);border:1px solid var(--line);border-left:4px solid var(--purple);border-radius:8px;padding:10px 14px;margin:12px 0;font-size:14px}
+.pill{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);margin-left:6px;vertical-align:middle}
+.hide{display:none!important}
+#nores{color:var(--muted)}
+.menu{display:none}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr}
+  aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+  nav{display:none} nav.open{display:block}
+  .menu{display:block;width:100%;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:inherit;margin-bottom:8px}
+  main{padding:24px 16px 60px}
+  h1{font-size:26px} header.hero img{width:64px;height:64px}
+  td:first-child{white-space:normal}
+}
+.ri{height:20px;width:20px;vertical-align:-4px;background:#1a1d2e;border-radius:4px;padding:1px}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside>
+  <div class="brand"><img src="img/icon.png" alt=""><div><b>PackTrack</b><small>Wiki · v0.8.5-beta</small></div></div>
+  <input id="search" type="search" placeholder="Search features, settings, commands…" aria-label="Search">
+  <button class="menu" id="menu">Contents</button>
+  <nav id="nav">
+    <div class="grp">Start</div>
+    <a href="#overview">Overview</a>
+    <a href="#why">Why PackTrack</a>
+    <a href="#install">Installing</a>
+    <div class="grp">Quest tracker</div>
+    <a href="#tracker">The tracker</a>
+    <a href="#cells">Reading the columns</a>
+    <a href="#buttons">Header buttons</a>
+    <a href="#picker">Choosing quests</a>
+    <a href="#helping">Helping</a>
+    <a href="#zone">Zone tracking</a>
+    <div class="grp">Party</div>
+    <a href="#partyquests">Party quests and sharing</a>
+    <a href="#follow">Following quest focus</a>
+    <a href="#notices">Progress notices</a>
+    <a href="#announce">Announcements</a>
+    <a href="#coord">Wait, rally and leader</a>
+    <div class="grp">Arrows</div>
+    <a href="#portrait">Party portrait arrows</a>
+    <a href="#nav-arrow">Navigation arrow</a>
+    <div class="grp">Reference</div>
+    <a href="#settings">Every setting</a>
+    <a href="#minimap">Minimap button</a>
+    <a href="#commands">Commands</a>
+    <a href="#privacy">What it sends</a>
+    <a href="#limits">Limits</a>
+    <a href="#bugs">Reporting a bug</a>
+    <a href="#ai">AI disclaimer</a>
+  </nav>
+  <button class="theme" id="theme">Toggle light / dark</button>
+</aside>
+<main>
+<header class="hero">
+  <img src="img/icon.png" alt="">
+  <div>
+    <h1>PackTrack</h1>
+    <p class="tag">See your party's quest progress side by side, for WoW: Forever. Made for friends and couples who quest together.</p>
+  </div>
+</header>
+<p id="nores" class="hide">Nothing matches that search.</p>
+
+<section id="overview" data-s>
+<h2>Overview</h2>
+<p>PackTrack puts every objective of your quests in one small window, with a column for you and one for each party member who also runs PackTrack. You see at a glance who still needs <i>3 more Raptor Talons</i> and who is done.</p>
+<figure><img src="img/tracker.png" alt="The PackTrack tracker with eight quests and two player columns"><figcaption>Auto mode with eight quests, sorted nearest first. Your column and your partner's sit side by side.</figcaption></figure>
+<div class="grid">
+  <div class="card"><b>Quest tracker</b><br>One line per objective, one column per player, difficulty-coloured titles.</div>
+  <div class="card"><b>Helping</b><br>See a teammate's quest and progress even after you finished it yourself.</div>
+  <div class="card"><b>Party quests</b><br>See quests your party has that you don't, and ask them to share.</div>
+  <div class="card"><b>Arrows</b><br>Arrows on party portraits, plus a navigation arrow to your quest, a rally point or the leader.</div>
+</div>
+<p><a href="https://legacy.curseforge.com/wow/addons/packtrack">Download on CurseForge</a></p>
+</section>
+
+<section id="why" data-s>
+<h2>Why PackTrack</h2>
+<p>I made PackTrack for my wife and me. We quest together and wanted to keep the immersion while still knowing where each of us stands on a quest.</p>
+<p>It is <b>not</b> Questie, Zygor or RestedXP. It doesn't tell you where to go to level faster, and it doesn't show the world what you're running (Questie is an amazing addon; this just isn't that). It's for friends and spouses who like to play through the content together.</p>
+<p>We used it through the whole beta, so it has hundreds of hours of testing across many versions. It is lightweight and works the moment you group up.</p>
+</section>
+
+<section id="install" data-s>
+<h2>Installing</h2>
+<ol>
+  <li>Download the zip from <a href="https://legacy.curseforge.com/wow/addons/packtrack">CurseForge</a>.</li>
+  <li>Unzip it into <code>Interface\AddOns</code> so you have <code>Interface\AddOns\PackTrack\PackTrack.toc</code>.</li>
+  <li>Log in and join a party. The tracker appears on its own.</li>
+</ol>
+<div class="note">Every party member whose progress you want to see needs PackTrack too. The portrait arrows and navigation arrow work with only your copy, though area and activity labels need the other player to run it.</div>
+</section>
+
+<section id="tracker" data-s>
+<h2>The tracker</h2>
+<ul>
+  <li>One line per objective, one column per player: <b>You</b> first, then party members running PackTrack, in class colours.</li>
+  <li>Quest titles use the game's difficulty colours (grey, green, yellow, orange, red).</li>
+  <li>The focused quest (the one your arrow points at) is highlighted. Grid lines separate quests, rows and players.</li>
+  <li>Hover an objective for the full text, each player's status and who still needs it.</li>
+  <li><b>Left-click</b> a quest title to collapse it. <b>Right-click</b> it to point the navigation arrow at it; it also becomes the game's focused quest.</li>
+  <li>Each quest has a <b>Share</b> button. After you share, every player's answer (accepted, already has it, log full…) shows on the title line for 20 seconds.</li>
+  <li>Drag the title bar to move it and the corner to resize it. <b>Tracker scale</b> (0.6 to 1.5) is on the Tracker tab.</li>
+</ul>
+</section>
+
+<section id="cells" data-s>
+<h2>Reading the columns</h2>
+<div class="tbl"><table>
+<tr><th>Cell</th><th>Meaning</th></tr>
+<tr><td><code>3/15</code></td><td>Progress on that objective. Green when done.</td></tr>
+<tr><td><code>Done</code></td><td>The quest is complete, ready to turn in (or, on a Helping quest, you already finished it).</td></tr>
+<tr><td><code>-</code></td><td>Not in that player's quest log.</td></tr>
+<tr><td><code>?</code></td><td>No reply yet from that player.</td></tr>
+<tr><td><code>off</code></td><td>The player is offline.</td></tr>
+<tr><td>dimmed count</td><td>The last update is old (stale).</td></tr>
+</table></div>
+<p>The footer shows how many party members are linked (running PackTrack and replying).</p>
+</section>
+
+<section id="buttons" data-s>
+<h2>Header buttons</h2>
+<div class="tbl"><table>
+<tr><th>Button</th><th>What it does</th></tr>
+<tr><td><b>Near</b></td><td>Sort quests nearest first and show the distance to each one.</td></tr>
+<tr><td><b>Zone</b></td><td>Track the quests filed under your current zone (see <a href="#zone">Zone tracking</a>).</td></tr>
+<tr><td><b>Quests</b></td><td>Open the picker to choose exactly which quests to show.</td></tr>
+<tr><td><b>Sync</b></td><td>Ask the party for fresh progress.</td></tr>
+<tr><td><b>Opt</b></td><td>Open the settings.</td></tr>
+<tr><td><b>x</b></td><td>Hide the tracker (bring it back with the minimap button or <code>/packtrack quests</code>).</td></tr>
+<tr><td><b>Wait</b></td><td>In the footer: tell your party to wait for you (party only).</td></tr>
+</table></div>
+</section>
+
+<section id="picker" data-s>
+<h2>Choosing quests</h2>
+<p><b>Auto</b> mode shows your focused quest and the quests in the game's own tracker, up to 8. The title bar says <i>Auto 8</i> when it is on.</p>
+<p>The <b>Quests</b> picker lists your whole log in a scrolling list. Tick exactly the quests you want and Auto turns off; <code>/packtrack auto</code> turns it back on.</p>
+<p>Under <b>Your party has</b> the picker lists quests teammates have that you don't, with who has each one. <b>Ask</b> sends a share request; clicking the quest itself shows it in your tracker as a <a href="#helping">Helping</a> quest (a check mark shows it is picked).</p>
+</section>
+
+<section id="helping" data-s>
+<h2>Helping <span class="pill">new in 0.8.5</span></h2>
+<p>When you help a partner with a quest you already finished, it's not in your log anymore, but you still want to see how they're doing.</p>
+<ul>
+  <li>A teammate's focused quest that you don't have shows in your tracker as <b>Helping:</b> with the quest name and their progress.</li>
+  <li>Your column says <b>Done</b> if your character already completed it.</li>
+  <li>To keep any other teammate quest shown, click it under <b>Your party has</b> in the Quests picker. Click again to remove it.</li>
+  <li>Up to 4 Helping quests show at once, after your own quests. The navigation arrow only points at quests in your log.</li>
+</ul>
+<p>Turn it off with <b>Show teammates' quests I don't have</b> on the Party quests tab.</p>
+</section>
+
+<section id="zone" data-s>
+<h2>Zone tracking</h2>
+<p><b>Zone</b> sets the game's tracked quests to the quests filed under your zone in the quest log, up to the game's limit of 25. Class, profession and dungeon quests count when their map is in your zone.</p>
+<p>With <b>Auto-track my zone's quests</b> on, this happens a few seconds after each zone change, and new quests you accept are tracked or untracked by zone too.</p>
+<p>Not sure why a quest was or wasn't tracked? <code>/packtrack debug</code> explains each decision.</p>
+</section>
+
+<section id="partyquests" data-s>
+<h2>Party quests and sharing</h2>
+<ul>
+  <li><b>Show quests my party has that I don't</b> fills the "Your party has" list in the picker.</li>
+  <li><b>Share requests</b>: when a teammate asks you to share, PackTrack can <i>Ask me</i> (a popup), <i>Always allow</i>, or be <i>Off</i>.</li>
+  <li><b>Show quest share results in the tracker</b>: after a share, see who accepted, who already has it, or whose log is full.</li>
+</ul>
+</section>
+
+<section id="follow" data-s>
+<h2>Following quest focus</h2>
+<p>With <b>Share my quest focus</b> on, your party can see which quest you're working on. Set <b>Follow quest focus</b> to <i>Party leader</i> to have your tracker and arrow follow the leader's quest.</p>
+<p>To follow anyone else, right-click their name in the tracker. Right-click a quest title to stop following.</p>
+</section>
+
+<section id="notices" data-s>
+<h2>Progress notices</h2>
+<p>Get a chat line (and optionally an on-screen message) when teammates make progress:</p>
+<div class="tbl"><table>
+<tr><th>Setting</th><th>You're told when</th></tr>
+<tr><td>Off</td><td>Never</td></tr>
+<tr><td>Ready to turn in</td><td>A teammate completes a quest (default)</td></tr>
+<tr><td>Objectives finished</td><td>A teammate finishes any objective</td></tr>
+<tr><td>Every count</td><td>Every time a teammate's count goes up</td></tr>
+</table></div>
+<p>These are private to you; nothing is posted in chat.</p>
+</section>
+
+<section id="announce" data-s>
+<h2>Announcements</h2>
+<p>All optional, on the Announcements tab. These post in party chat, so friends without the addon see them too.</p>
+<ul>
+  <li><b>Announce my objective and quest completions</b>: <code>Raptors 2/8</code>, <code>Raptors 8/8 (done)</code>, <code>Quest complete: …</code>. <b>Progress counts</b> sets how often: Off, every item, every 2 (default), 3 or 5.</li>
+  <li><b>Welcome newcomers</b> who join and don't reply with PackTrack.</li>
+  <li><b>Announce my quest and counts</b> when you join a party, and optionally try to share it.</li>
+</ul>
+</section>
+
+<section id="coord" data-s>
+<h2>Wait, rally and leader</h2>
+<ul>
+  <li><b>Wait for me</b>: one click tells the party to hold up.</li>
+  <li><b>Rally point</b>: <code>/packtrack rally</code> marks your spot; everyone's navigation arrow points there.</li>
+  <li><b>Party leader guidance</b>: point your navigation arrow at the leader.</li>
+  <li><b>Separation alerts</b>: a warning when a party member gets farther than the alert distance, with a cooldown so it doesn't spam.</li>
+  <li><b>Highlight objectives everyone finished</b> and list who still needs an objective on hover.</li>
+</ul>
+<div class="note">Wait and Rally only work in a party. Solo, the buttons are dimmed and say "Join a party…".</div>
+</section>
+
+<section id="portrait" data-s>
+<h2>Party portrait arrows</h2>
+<p>A small arrow on each party portrait points toward that member: <span style="color:var(--green)">green</span> near, <span style="color:var(--gold)">yellow</span> midway, <span style="color:var(--red)">red</span> far.</p>
+<ul>
+  <li><b>Labels</b>: Both, Distance, Location or None. Location shows their area or what they're doing (at the bank, trainer, mailbox, crafting, AFK…).</li>
+  <li><b>Maximum arrow distance</b>: 50 to 5,000 yards (default 1,000).</li>
+  <li><b>Hide area names within</b> a set distance, so nearby members only show activities.</li>
+  <li>Untick <b>Share my location and activity</b> to stop sending yours; you still see others'.</li>
+</ul>
+<p>Arrows idle when you're solo, in a raid, or have them turned off.</p>
+</section>
+
+<section id="nav-arrow" data-s>
+<h2>Navigation arrow</h2>
+<p>A larger movable arrow that points at your focused quest, a rally point, the party leader, or your corpse while you're a ghost.</p>
+<ul>
+  <li>Options: enable, lock position, always visible (ignore distance), point to corpse, 3D-style arrow.</li>
+  <li><b>Navigation arrow scale</b>: 0.5 to 2, on the Tracker tab.</li>
+  <li>Open its settings with <code>/packtrack arrow</code>.</li>
+</ul>
+</section>
+
+<section id="settings" data-s>
+<h2>Every setting</h2>
+<p>Open settings from the minimap button (right-click), the tracker's <b>Opt</b> button, or <code>/packtrack</code>.</p>
+<h3>Tracker tab</h3>
+<div class="tbl"><table>
+<tr><th>Setting</th><th>What it does</th></tr>
+<tr><td>Shrink to fit its contents</td><td>The window sizes itself to the quests shown.</td></tr>
+<tr><td>Hide objectives everyone has finished</td><td>Keeps the list short.</td></tr>
+<tr><td>Lock position and size</td><td>No accidental drags.</td></tr>
+<tr><td>Hide when not in a party</td><td>Tracker only shows in a group.</td></tr>
+<tr><td>Hide during combat</td><td>Clears the screen while fighting.</td></tr>
+<tr><td>Auto-track my zone's quests</td><td>See <a href="#zone">Zone tracking</a>.</td></tr>
+<tr><td>Make the selected quest the game's focus</td><td>Selecting a quest in PackTrack also sets the Blizzard focus.</td></tr>
+<tr><td>Show grid lines</td><td>Lines between quests, rows and players.</td></tr>
+<tr><td>Highlight the focused quest</td><td>Marks the quest the arrow points at.</td></tr>
+<tr><td>Theme</td><td><b>Modern</b> (flat panels) or <b>WoW</b> (Blizzard artwork).</td></tr>
+<tr><td>Tracker scale · Navigation arrow scale</td><td>0.6–1.5 · 0.5–2</td></tr>
+</table></div>
+<h3>Party quests tab</h3>
+<div class="tbl"><table>
+<tr><th>Setting</th><th>Default</th></tr>
+<tr><td>Show quests my party has that I don't</td><td>On</td></tr>
+<tr><td>Share requests</td><td>Ask me</td></tr>
+<tr><td>Share my quest focus with the party</td><td>On</td></tr>
+<tr><td>Follow quest focus</td><td>Off</td></tr>
+<tr><td>Show quest share results in the tracker</td><td>On</td></tr>
+<tr><td>Progress notices</td><td>Ready to turn in</td></tr>
+<tr><td>Also show progress notices on screen</td><td>Off</td></tr>
+<tr><td>Show teammates' quests I don't have (Helping)</td><td>On</td></tr>
+</table></div>
+<h3>Arrows tab</h3>
+<p>Portrait arrows on/off, labels, maximum distance, hide area names within, share my location and activity, and a reset button. See <a href="#portrait">Party portrait arrows</a>.</p>
+<h3>Announcements tab</h3>
+<p>Welcome newcomers, announce my quest on join, also try to share it, announce my completions, progress counts. See <a href="#announce">Announcements</a>.</p>
+<h3>Coordination tab</h3>
+<p>Highlight objectives everyone finished, Wait for me button, rally points, party leader guidance, separation alerts with alert distance and cooldown.</p>
+</section>
+
+<section id="minimap" data-s>
+<h2>Minimap button</h2>
+<ul>
+  <li><b>Left-click</b>: show or hide the tracker.</li>
+  <li><b>Right-click</b>: open settings.</li>
+  <li><b>Drag</b> it around the edge of the minimap. <code>/packtrack minimap</code> hides or shows it.</li>
+</ul>
+</section>
+
+<section id="commands" data-s>
+<h2>Commands</h2>
+<p><code>/packtrack</code> followed by:</p>
+<div class="tbl"><table>
+<tr><th>Command</th><th>What it does</th></tr>
+<tr><td><i>(nothing)</i> · <code>options</code></td><td>Open settings</td></tr>
+<tr><td><code>quests</code></td><td>Show or hide the tracker</td></tr>
+<tr><td><code>pick</code></td><td>Open the Quests picker</td></tr>
+<tr><td><code>auto</code></td><td>Back to automatic quest selection</td></tr>
+<tr><td><code>zone</code></td><td>Track your zone's quests</td></tr>
+<tr><td><code>near</code></td><td>Toggle nearest-first sorting</td></tr>
+<tr><td><code>sync</code> · <code>refresh</code></td><td>Ask the party for fresh progress</td></tr>
+<tr><td><code>reset</code></td><td>Put the tracker back in its default spot</td></tr>
+<tr><td><code>arrow</code></td><td>Navigation arrow settings</td></tr>
+<tr><td><code>announce</code></td><td>Announce your quest in party chat</td></tr>
+<tr><td><code>wait</code> · <code>rally</code> · <code>leader</code></td><td>Wait for me · set a rally point here · point at the leader</td></tr>
+<tr><td><code>minimap</code></td><td>Show or hide the minimap button</td></tr>
+<tr><td><code>debug</code></td><td>Copyable diagnostics</td></tr>
+</table></div>
+</section>
+
+<section id="privacy" data-s>
+<h2>What it sends</h2>
+<p>PackTrack talks only to your party, using the game's hidden addon channel. It sends your quest counts, which quests you have, your focused quest and (if you allow it) your area and activity. Nothing goes outside the game and nothing is shown to people outside your party.</p>
+<p>Messages are paced to stay under the game's limits, so it never floods or gets throttled. Party chat is only used for the <a href="#announce">announcements</a> you turn on.</p>
+</section>
+
+<section id="limits" data-s>
+<h2>Limits</h2>
+<ul>
+  <li>Party groups only, not raids, with the default portrait-style party frames.</li>
+  <li>Teammates need PackTrack for their columns; members with an older version may not see the newer features.</li>
+  <li>Positions and quest data depend on what the game allows. Missing data shows a status rather than a guess.</li>
+</ul>
+</section>
+
+<section id="bugs" data-s>
+<h2>Reporting a bug</h2>
+<ol>
+  <li>Type <code>/packtrack debug</code> and copy the text it shows.</li>
+  <li>Post it on the <a href="https://legacy.curseforge.com/wow/addons/packtrack">CurseForge page</a> with what you expected and what happened.</li>
+  <li>Say whether your party members run PackTrack and which version.</li>
+</ol>
+</section>
+
+<section id="ai" data-s>
+<h2>AI disclaimer</h2>
+<p>Required AI Disclaimer: I used AI to help write the code. I designed it, directed it, and put in 200+ hours of play testing. The addon has no AI in it, sends nothing anywhere, and never plays for you.</p>
+<p>PackTrack by Alfred Ducharme.</p>
+</section>
+</main>
+</div>
+<script>
+(function(){
+  var root=document.documentElement;
+  try{var t=localStorage.getItem('pt-theme'); if(t) root.setAttribute('data-theme',t);}catch(e){}
+  document.getElementById('theme').addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')?root.getAttribute('data-theme')==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+    var next=dark?'light':'dark'; root.setAttribute('data-theme',next);
+    try{localStorage.setItem('pt-theme',next);}catch(e){}
+  });
+  var nav=document.getElementById('nav');
+  document.getElementById('menu').addEventListener('click',function(){nav.classList.toggle('open');});
+  nav.addEventListener('click',function(e){if(e.target.tagName==='A') nav.classList.remove('open');});
+  var secs=[].slice.call(document.querySelectorAll('[data-s]'));
+  var links={}; [].forEach.call(nav.querySelectorAll('a'),function(a){links[a.getAttribute('href').slice(1)]=a;});
+  var q=document.getElementById('search'), none=document.getElementById('nores');
+  q.addEventListener('input',function(){
+    var v=q.value.trim().toLowerCase(), n=0;
+    secs.forEach(function(s){
+      var hit=!v||s.textContent.toLowerCase().indexOf(v)>=0;
+      s.classList.toggle('hide',!hit); if(links[s.id]) links[s.id].classList.toggle('hide',!hit); if(hit) n++;
+    });
+    none.classList.toggle('hide',n>0);
+  });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting&&links[e.target.id]){for(var k in links) links[k].classList.remove('on'); links[e.target.id].classList.add('on');}
+    });},{rootMargin:'-10% 0px -80% 0px'});
+    secs.forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
+</body>
+</html>
