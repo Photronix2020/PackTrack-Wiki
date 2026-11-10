@@ -83,7 +83,7 @@ figcaption{color:var(--muted);font-size:13px;margin-top:6px}
 <body>
 <div class="layout">
 <aside>
-  <div class="brand"><img src="img/icon.png" alt=""><div><b>PackTrack</b><small>Wiki · v0.8.5-beta</small></div></div>
+  <div class="brand"><img src="img/icon.png" alt=""><div><b>PackTrack</b><small>Wiki · v0.8.6-beta</small></div></div>
   <input id="search" type="search" placeholder="Search features, settings, commands…" aria-label="Search">
   <button class="menu" id="menu">Contents</button>
   <nav id="nav">
@@ -97,6 +97,7 @@ figcaption{color:var(--muted);font-size:13px;margin-top:6px}
     <a href="#buttons">Header buttons</a>
     <a href="#picker">Choosing quests</a>
     <a href="#helping">Helping</a>
+    <a href="#xp">Party XP bars</a>
     <a href="#zone">Zone tracking</a>
     <div class="grp">Party</div>
     <a href="#partyquests">Party quests and sharing</a>
@@ -220,6 +221,19 @@ figcaption{color:var(--muted);font-size:13px;margin-top:6px}
 <p>Turn it off with <b>Show teammates' quests I don't have</b> on the Party quests tab.</p>
 </section>
 
+<section id="xp" data-s>
+<h2>Party XP bars <span class="pill">new in 0.8.6</span></h2>
+<p>At the bottom of the tracker, one bar per player shows their level and how far they are to the next level, so you can see who's about to ding.</p>
+<ul>
+  <li><b>You</b> first, then each party member running PackTrack 0.8.6 or newer, in class colours.</li>
+  <li>The right side shows the percent to the next level, for example <code>45.2%</code>.</li>
+  <li>Rested experience shows as a lighter extension past the fill.</li>
+  <li>Max-level players get a gold <b>Max level</b> bar; players who turned off experience gain show <b>XP off</b>.</li>
+  <li>Hover a bar for exact XP, XP to the next level and rested XP.</li>
+</ul>
+<p>Bars show only in a party. Turn them off with <b>Show party XP bars</b> on the Tracker tab.</p>
+</section>
+
 <section id="zone" data-s>
 <h2>Zone tracking</h2>
 <p><b>Zone</b> sets the game's tracked quests to the quests filed under your zone in the quest log, up to the game's limit of 25. Class, profession and dungeon quests count when their map is in your zone.</p>
@@ -314,6 +328,7 @@ figcaption{color:var(--muted);font-size:13px;margin-top:6px}
 <tr><td>Make the selected quest the game's focus</td><td>Selecting a quest in PackTrack also sets the Blizzard focus.</td></tr>
 <tr><td>Show grid lines</td><td>Lines between quests, rows and players.</td></tr>
 <tr><td>Highlight the focused quest</td><td>Marks the quest the arrow points at.</td></tr>
+<tr><td>Show party XP bars</td><td>Level and percent to next level for each player. See <a href="#xp">Party XP bars</a>.</td></tr>
 <tr><td>Theme</td><td><b>Modern</b> (flat panels) or <b>WoW</b> (Blizzard artwork).</td></tr>
 <tr><td>Tracker scale · Navigation arrow scale</td><td>0.6–1.5 · 0.5–2</td></tr>
 </table></div>
@@ -369,7 +384,7 @@ figcaption{color:var(--muted);font-size:13px;margin-top:6px}
 
 <section id="privacy" data-s>
 <h2>What it sends</h2>
-<p>PackTrack talks only to your party, using the game's hidden addon channel. It sends your quest counts, which quests you have, your focused quest and (if you allow it) your area and activity. Nothing goes outside the game and nothing is shown to people outside your party.</p>
+<p>PackTrack talks only to your party, using the game's hidden addon channel. It sends your quest counts, which quests you have, your level and experience, your focused quest and (if you allow it) your area and activity. Nothing goes outside the game and nothing is shown to people outside your party.</p>
 <p>Messages are paced to stay under the game's limits, so it never floods or gets throttled. Party chat is only used for the <a href="#announce">announcements</a> you turn on.</p>
 </section>
 
